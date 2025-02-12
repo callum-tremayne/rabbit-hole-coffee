@@ -1,0 +1,171 @@
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Headingley - Fried Menu</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" />
+<link
+  href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700;900&family=Inter:wght@400;700;900&display=swap"
+  rel="stylesheet"
+/>
+<link rel="stylesheet" type="text/css" href="styles.css" />
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://unpkg.com/sheetrock@1.2.0/dist/sheetrock.min.js"></script>
+<script src="https://unpkg.com/handlebars@4.5.0/dist/handlebars.min.js"></script>
+<div class="top-container">
+  <div class="back-container">
+    <a href="campusm://pocketguide?pg_code=428891" class="back"
+      ><svg
+        width="40px"
+        height="40px"
+        viewBox="0 0 512 512"
+        xmlns="http://www.w3.org/2000/svg"
+        fill="#e9502c"
+        stroke="#fffff"
+      >
+        <polyline points="244 400 100 256 244 112" id="polyline"></polyline>
+        <line x1="120" y1="256" x2="412" y2="256" id="line"></line>
+      </svg>
+      <p>Back</p>
+    </a>
+  </div>
+  <div class="header-image">
+    <div class="rhc">
+      <img
+        src="https://portal.ombiel.co.uk/assets/LeedsBeckettUniversity/LeedsBeckett/FoodMenu/2024-25/Rabbit-Hole-Coffee---Copy.jpg"
+        alt="Rabbit Hole Coffee"
+      />
+    </div>
+  </div>
+</div>
+<div class="main-title">
+  <div class="title">Food Menu</div>
+</div>
+<section class="menu-category">
+  <button class="collapsible">
+    <span class="menu-category-title">Hot Food</span
+    ><span class="arrow">▼</span>
+  </button>
+  <div class="content">
+    <div id="HotFood">
+      <script id="HotFood-template" type="text/x-handlebars-template">
+        <div class="menu-item">
+          <h4>{{cells.HotFood}} - {{cells.HotFoodPrice}}</h4>
+          <p>{{cells.HotFoodDesc}}</p><i>{{cells.HotFoodExtra}}</i>
+        </div>
+      </script>
+    </div>
+    <div id="iaarobf" class="menu-item">
+      <h4>Poppin' Chicken Snack Box - £3.00</h4>
+      <p>Poppin’ chicken pieces and fries</p>
+      <strong><i>{{cells.HotFoodExtra}}</i></strong>
+    </div>
+  </div>
+</section>
+<section class="menu-category">
+  <button class="collapsible">
+    <span class="menu-category-title">Cold Food</span
+    ><span class="arrow">▼</span>
+  </button>
+  <div class="content">
+    <div id="ColdFood">
+      <script id="ColdFood-template" type="text/x-handlebars-template">
+        <div class="menu-item">
+          <h4>{{cells.ColdFood}} - {{cells.ColdFoodPrice}}</h4>
+          <p>{{cells.ColdFoodDesc}}</p>
+        </div>
+      </script>
+    </div>
+  </div>
+</section>
+<footer class="bottom-container">
+  <a href="https://www.leedsbeckett.ac.uk/beckettfood/rewards/" target="_blank"
+    ><img
+      src="https://portal.ombiel.co.uk/assets/LeedsBeckettUniversity/LeedsBeckett/FoodMenu/2024-25/UpayaPP-10.png"
+      alt="Rewards" /></a
+  ><span class="tnc">
+    Food Allergies & Intolerances -<br />
+    Before you order your food and drinks please ask a member of staff if you
+    would like to know about our ingredients.
+  </span>
+</footer>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // --- 1. Delegated event listener for collapsible accordions ---
+    // This will catch clicks on any element with class "collapsible"
+    $(document).on("click", ".collapsible", function () {
+      // Close all other open accordions
+      $(".collapsible")
+        .not(this)
+        .each(function () {
+          $(this).removeClass("active");
+          $(this).next(".content").css("max-height", "");
+        });
+
+      // Toggle the clicked accordion
+      $(this).toggleClass("active");
+      var content = $(this).next(".content");
+      if (
+        content.css("max-height") !== "0px" &&
+        content.css("max-height") !== "none"
+      ) {
+        content.css("max-height", "");
+      } else {
+        content.css("max-height", content[0].scrollHeight + "px");
+      }
+    });
+  });
+</script>
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    // Existing listener for the location container toggling
+    var locationContainer = document.querySelector(".location-container");
+    var locationHeader = locationContainer.querySelector(".location-header");
+
+    locationHeader.addEventListener("click", function (e) {
+      // Prevent the document click event from immediately closing the dropdown
+      e.stopPropagation();
+      // Toggle the active state
+      locationContainer.classList.toggle("active");
+      var dropdown = locationContainer.querySelector(".location-dropdown");
+      if (dropdown.style.maxHeight && dropdown.style.maxHeight !== "0px") {
+        dropdown.style.maxHeight = null;
+      } else {
+        dropdown.style.maxHeight = dropdown.scrollHeight + "px";
+      }
+    });
+
+    // Listen for clicks anywhere in the document.
+    document.addEventListener("click", function (e) {
+      // If the click target is not within the location container,
+      // then close the dropdown.
+      if (!locationContainer.contains(e.target)) {
+        locationContainer.classList.remove("active");
+        var dropdown = locationContainer.querySelector(".location-dropdown");
+        if (dropdown) {
+          dropdown.style.maxHeight = null;
+        }
+      }
+    });
+  });
+</script>
+<script>
+  // Define spreadsheet URL.
+  var rhcSpreadsheet =
+    "https://docs.google.com/spreadsheets/d/1TkWMu07wdjNvzfwwqlF4_fehEElZt-3Nc2xgU-vIGHE/edit?gid=615333656#gid=615333656";
+
+  var HotFoodTemplate = Handlebars.compile($("#HotFood-template").html());
+
+  $("#HotFood").sheetrock({
+    url: rhcSpreadsheet,
+    query: "select A, B, C, D where A is not null",
+    rowTemplate: HotFoodTemplate,
+  });
+
+  var ColdFoodTemplate = Handlebars.compile($("#ColdFood-template").html());
+  $("#ColdFood").sheetrock({
+    url: rhcSpreadsheet,
+    query: "select E, F, G where E is not null",
+    rowTemplate: ColdFoodTemplate,
+  });
+</script>
